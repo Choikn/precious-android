@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/appbar3">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/searchbox2"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/searchicon2" />
+            <EditText
+                android:id="@+id/searchbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:hint="검색할 단어를 입력하세요"
+                android:textColor="#000000"
+                android:background="@null"
+                android:layout_toRightOf="@+id/search"/>
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/searchbox"
+                android:background="@drawable/xicon" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

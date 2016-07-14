@@ -1,0 +1,62 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dlMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/aaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/appbar4">
+
+            <ImageButton
+                android:id="@+id/menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/menu" />
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/searchicon" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/list2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/aaa"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutDrawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#ffffff"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/slidemenu_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
