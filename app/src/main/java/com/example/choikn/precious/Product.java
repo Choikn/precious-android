@@ -6,10 +6,9 @@ package com.example.choikn.precious;
 public class Product {
     int id;
     String name;
-    int price;
-    int maxprice;
-    int minprice;
-    int avgprice;
+    int maxPrice;
+    int minPrice;
+    int avgPrice;
 
     public int getId() {
         return id;
@@ -27,35 +26,27 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
+    public int getMaxPrice() {
+        return maxPrice;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
     }
 
-    public int getMaxprice() {
-        return maxprice;
+    public int getMinPrice() {
+        return minPrice;
     }
 
-    public void setMaxprice(int maxprice) {
-        this.maxprice = maxprice;
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
     }
 
-    public int getMinprice() {
-        return minprice;
+    public int getAvgPrice() {
+        return avgPrice;
     }
 
-    public void setMinprice(int minprice) {
-        this.minprice = minprice;
-    }
-
-    public int getAvgprice() {
-        return avgprice;
-    }
-
-    public void setAvgprice(int avgprice) {
-        this.avgprice = avgprice;
+    public void setAvgPrice(int avgPrice) {
+        this.avgPrice = avgPrice;
     }
 }
