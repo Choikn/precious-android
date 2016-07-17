@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#ffc107"
     android:orientation="vertical"
-    tools:context="com.example.choikn.precious.MainActivity">
+    tools:context=".activity.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

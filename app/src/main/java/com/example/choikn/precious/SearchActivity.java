@@ -73,7 +73,7 @@ public class SearchActivity extends Activity {
                         if(response.isSuccessful()){
                             List<Product> product_temp = response.body();
                             for(Product product : product_temp){
-                                adapter.addItem(product.getName(), product.getAvgPrice(), ResourcesCompat.getDrawable(getResources(), R.drawable.heart2, null));
+                                adapter.addItem(product.getName(), product.getPrice(), ResourcesCompat.getDrawable(getResources(), R.drawable.heart2, null));
                             }
                         }
                     }
