@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "57045123348",
+    "project_id": "firebase-precious"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57045123348:android:acf24da6489944d5",
+        "android_client_info": {
+          "package_name": "com.example.choikn.precious"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmSh0KIiyUPmXCTrx6hUHF-HXFgMK7jbw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

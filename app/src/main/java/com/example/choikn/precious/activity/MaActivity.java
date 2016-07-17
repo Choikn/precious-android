@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.choikn.precious.ActivityManager;
 import com.example.choikn.precious.BackPressCloseSystem;
+import com.example.choikn.precious.RegistrationIntentService;
 import com.example.choikn.precious.server.AppController;
 import com.example.choikn.precious.server.NetworkService;
 import com.example.choikn.precious.R;
@@ -175,6 +176,9 @@ public class MaActivity extends Activity {
             }
 
         });
+
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
 
     }
 
