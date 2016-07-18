@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -30,13 +32,18 @@ import android.widget.Toast;
 import com.example.choikn.precious.ActivityManager;
 import com.example.choikn.precious.BackPressCloseSystem;
 import com.example.choikn.precious.RegistrationIntentService;
+import com.example.choikn.precious.listAdapter.NotificationListAdapter;
 import com.example.choikn.precious.server.AppController;
 import com.example.choikn.precious.server.NetworkService;
 import com.example.choikn.precious.R;
+import com.example.choikn.precious.server.Notification;
 import com.example.choikn.precious.server.User;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -53,6 +60,8 @@ public class MaActivity extends Activity {
     private ImageButton menu, search;
     private DrawerLayout dlMain;
     private LinearLayout layoutDrawer;
+    private RecyclerView notificationList;
+    private NotificationListAdapter notificationListAdapter;
     private static NetworkService networkService;
     private ListView list;
     private ActivityManager am = ActivityManager.getInstance();
@@ -180,6 +189,59 @@ public class MaActivity extends Activity {
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
 
+        notificationList = (RecyclerView) findViewById(R.id.notificationList);
+        notificationListAdapter = new NotificationListAdapter(this, new ArrayList<Notification>(), notificationList);
+
+        notificationListAdapter.setListener(new NotificationListAdapter.ItemClickListener() {
+            @Override
+            public void onClick(Notification item) {
+                int productId;
+                Intent intent;
+                switch (item.getType()) {
+                    case "sold":
+                    case "old":
+                    case "favorite":
+                        // 게시글로이동해야함.
+                        break;
+                    case "create":
+                        productId = Integer.parseInt(item.getData().split("/")[0]);
+                        intent = new Intent(getApplicationContext(), ProductActivity.class);
+                        intent.putExtra("id", productId);
+                        startActivity(intent);
+                        break;
+                    case "popular":
+                    case "price":
+                        productId = Integer.parseInt(item.getData());
+                        intent = new Intent(getApplicationContext(), ProductActivity.class);
+                        intent.putExtra("id", productId);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+
+        notificationList.setLayoutManager(new LinearLayoutManager(this));
+        notificationList.setAdapter(notificationListAdapter);
+
+        networkService.getNotifications().enqueue(new Callback<List<Notification>>() {
+            @Override
+            public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<Notification> list = new ArrayList<>(response.body());
+                    Collections.reverse(list);
+                    notificationListAdapter.setNotifications(list);
+                    notificationListAdapter.notifyDataSetChanged();
+                } else {
+                    int statusCode = response.code();
+                    Log.i("MyTag", "응답코드 : " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Notification>> call, Throwable t) {
+                Log.i("MyTag", "서버 onFailure 에러내용 : " + t.getMessage());
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

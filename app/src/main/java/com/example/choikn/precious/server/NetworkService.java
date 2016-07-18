@@ -35,6 +35,7 @@ public interface NetworkService {
     @FormUrlEncoded
     @POST("/api/products/{id}/articles")
     Call<Article> write(
+
     @FormUrlEncoded
     @POST("/api/session/local")
     Call<User> user_check(@Field("username")String username, @Field("password")String password);
@@ -55,9 +56,16 @@ public interface NetworkService {
     @GET("/api/user")
     Call<User> getNameEmail();
 
+    @FormUrlEncoded
+    @POST("/api/user")
+    Call<User> setGCMKey(@Field("gcm") String token);
+
     @DELETE("/api/products/{id}/favorite")
     Call<Product> favorite_dt(@Path("id")Number id);
 
     @DELETE("/api/session")
     Call<User> logout();
+
+    @GET("/api/notifications")
+    Call<List<Notification>> getNotifications();
 }

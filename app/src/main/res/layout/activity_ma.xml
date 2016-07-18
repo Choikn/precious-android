@@ -5,16 +5,26 @@
     android:fitsSystemWindows="true">
 
     <!-- Content of this layout-->
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include
-        layout="@layout/actionbar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            layout="@layout/actionbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
-    </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:background="#ffffff"
+            android:id="@+id/notificationList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
     <!-- Drawer -->
     <LinearLayout
         android:id="@+id/layoutDrawer"
