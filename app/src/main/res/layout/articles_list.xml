@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,7 +24,7 @@
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/photo"
             android:text="제품 이름"
-            android:textColor="#545454"
+            android:textColor="#000000"
             android:textSize="11sp" />
 
         <TextView
@@ -38,7 +36,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/photo"
             android:text="25,000원"
-            android:textColor="#a3a3a3"
+            android:textColor="#000000"
             android:textSize="10sp" />
 
         <ImageButton
@@ -50,7 +48,9 @@
             android:layout_marginRight="20dp"
             android:padding="0sp"
             android:scaleType="fitCenter"
+            android:visibility="gone"
             android:background="@android:color/transparent" />
+
     </RelativeLayout>
 
 </LinearLayout>

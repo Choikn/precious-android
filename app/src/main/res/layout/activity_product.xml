@@ -3,7 +3,7 @@
     android:id="@+id/dlMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#fafafa"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -58,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:textColor="#5f5f5f"
                 android:text="최고가" />
 
             <TextView
@@ -65,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/a"
+                android:textColor="#959595"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"/>
 
@@ -84,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:textColor="#5f5f5f"
                 android:text="최저가" />
 
             <TextView
@@ -92,6 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/b"
                 android:layout_centerHorizontal="true"
+                android:textColor="#959595"
                 android:layout_marginTop="5dp"/>
         </RelativeLayout>
 
@@ -109,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:textColor="#5f5f5f"
                 android:text="현재가" />
 
             <TextView
@@ -117,10 +122,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/c"
                 android:layout_centerHorizontal="true"
+                android:textColor="#959595"
                 android:layout_marginTop="5dp" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/a_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/abc3"
@@ -143,16 +150,13 @@
                 android:layout_toRightOf="@+id/checkbox"
                 android:text="판매 완료 표시" />
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/sort" />
-
-
         </RelativeLayout>
+
+        <ListView
+            android:id="@+id/list_articles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/a_1"/>
 
     </RelativeLayout>
 

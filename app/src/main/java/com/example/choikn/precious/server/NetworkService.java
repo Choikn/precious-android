@@ -32,9 +32,12 @@ public interface NetworkService {
     @POST("/api/products/{id}/favorite")
     Call<Product> favorite(@Path("id")Number id);
 
+    @POST("/api/articles/{id}/favorite")
+    Call<Article> at_favorite(@Path("id")Number id);
+
     @FormUrlEncoded
     @POST("/api/products/{id}/articles")
-    Call<Article> write(
+    Call<Article> write(@Path("id")int id, @Field("name")String name, @Field("price")Number price, @Field("descripsion")String description);
 
     @FormUrlEncoded
     @POST("/api/session/local")
@@ -47,11 +50,20 @@ public interface NetworkService {
     @GET("/api/products")
     Call<List<Product>> products(@Query("query") String query);
 
+    @GET("/api/products/{id}/articles")
+    Call<List<Article>> getarticles(@Path("id")Number id);
+    
     @GET("/api/user/favoriteProducts")
     Call<List<Product>> favorite_products();
+    
+    @GET("/api/user/favoriteArticles")
+    Call<List<Article>> favorite_articles();
 
     @GET("/api/products/{id}")
     Call<Product> productID(@Path("id")Number id);
+    
+    @GET("/api/articles/{id}")
+    Call<Article> articleID(@Path("id")Number id);
 
     @GET("/api/user")
     Call<User> getNameEmail();
@@ -62,6 +74,9 @@ public interface NetworkService {
 
     @DELETE("/api/products/{id}/favorite")
     Call<Product> favorite_dt(@Path("id")Number id);
+    
+    @DELETE("/api/articles/{id}/favorite")
+    Call<Article> at_favorite_dt(@Path("id")Number id);
 
     @DELETE("/api/session")
     Call<User> logout();

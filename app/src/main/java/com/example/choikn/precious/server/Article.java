@@ -10,6 +10,7 @@ public class Article {
     String photo;
     int id;
     int price;
+    boolean favorite;
 
     public String getName() {
         return name;
@@ -25,6 +26,14 @@ public class Article {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     public String getPhoto() {

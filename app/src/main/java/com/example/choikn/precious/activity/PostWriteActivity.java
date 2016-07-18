@@ -15,6 +15,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+<<<<<<< HEAD
+=======
+import android.widget.Toast;
+>>>>>>> origin/test
 
 import com.example.choikn.precious.R;
 import com.example.choikn.precious.server.AppController;
@@ -23,6 +27,11 @@ import com.example.choikn.precious.server.NetworkService;
 import com.example.choikn.precious.server.Product;
 import com.example.choikn.precious.server.User;
 
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+
+>>>>>>> origin/test
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -50,7 +59,11 @@ public class PostWriteActivity extends Activity {
         TextView ti = (TextView) findViewById(R.id.ti);
         ti.setText("게시글 작성");
         ti.setPaintFlags(ti.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+<<<<<<< HEAD
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/Cocogoose_trial.otf");
+=======
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/NotoSansCJKkr-Medium.otf");
+>>>>>>> origin/test
         ti.setTypeface(face);
 
         title = (EditText) findViewById(R.id.title);
@@ -62,6 +75,7 @@ public class PostWriteActivity extends Activity {
 
         jaksung = (ImageButton) findViewById(R.id.jaksung);
 
+<<<<<<< HEAD
         Intent intent = getIntent();
 
         jaksung.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +90,27 @@ public class PostWriteActivity extends Activity {
                     public void onResponse(Call<Article> call, Response<Article> response) {
                         if (response.isSuccessful()) {
 
+=======
+        jaksung.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = getIntent();
+                int id = intent2.getExtras().getInt("id");
+                String etitle = title.getText().toString();
+                String econtent = content.getText().toString();
+                int eprice = Integer.parseInt(price.getText().toString());
+                Call<Article> write = networkService.write(id, etitle, eprice, econtent);
+                write.enqueue(new Callback<Article>() {
+                    @Override
+                    public void onResponse(Call<Article> call, Response<Article> response) {
+                        try {
+                            Log.e("myTag", response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (response.isSuccessful()) {
+                            finish();
+>>>>>>> origin/test
                         } else {
                             int statusCode = response.code();
                             Log.i("MyTag", "응답코드 : " + statusCode);

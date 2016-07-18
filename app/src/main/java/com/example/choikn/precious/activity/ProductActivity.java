@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +23,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.choikn.precious.listAdapter.ArticlesAdapter;
+import com.example.choikn.precious.listAdapter.SearchListAdapter;
+import com.example.choikn.precious.listAdapter.SearchList_items;
 import com.example.choikn.precious.server.AppController;
+import com.example.choikn.precious.server.Article;
 import com.example.choikn.precious.server.NetworkService;
 import com.example.choikn.precious.R;
 import com.example.choikn.precious.server.Product;
@@ -44,11 +50,11 @@ public class ProductActivity extends Activity {
 
     private ImageButton menu, search;
     private ImageView image;
-    private ListView list;
+    private ListView list, list_articles;
     private DrawerLayout dlMain;
     private LinearLayout layoutDrawer;
     private NetworkService networkService;
-    private TextView name, email, minprice, maxprice, avgprice;
+    private TextView name, email, minprice, maxprice, avgprice, a,b,c;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,12 +65,24 @@ public class ProductActivity extends Activity {
             getWindow().setStatusBarColor(Color.rgb(255, 168, 0));
         }
 
+        Typeface face1 = Typeface.createFromAsset(getAssets(), "fonts/Cocogoose_trial.otf");
+        Typeface face2 = Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf");
+        Typeface face3 = Typeface.createFromAsset(getAssets(), "fonts/NotoSansCJKkr-Medium.otf");
+        Typeface face4 = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+
         networkService = AppController.getNetworkService(this);
 
         image = (ImageView)findViewById(R.id.image);
         minprice = (TextView)findViewById(R.id.minprice);
         maxprice = (TextView)findViewById(R.id.maxprice);
         avgprice = (TextView)findViewById(R.id.avgprice);
+
+        a = (TextView) findViewById(R.id.a);
+        a.setTypeface(face3);
+        b = (TextView) findViewById(R.id.b);
+        b.setTypeface(face3);
+        c = (TextView) findViewById(R.id.c);
+        c.setTypeface(face3);
 
         layoutDrawer = (LinearLayout) findViewById(R.id.layoutDrawer);
         dlMain = (DrawerLayout) findViewById(R.id.dlMain);
@@ -81,9 +99,9 @@ public class ProductActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = getIntent();
-                int num = intent.getExtras().getInt("id");;
+                int id = intent.getExtras().getInt("id");
                 Intent intent2 = new Intent(getApplicationContext(), PostWriteActivity.class);
-                intent2.putExtra("id", num);
+                intent2.putExtra("id", id);
                 startActivity(intent2);
             }
         });
@@ -96,20 +114,56 @@ public class ProductActivity extends Activity {
         items.add("1");
         items.add("2");
         items.add("3");
-        items.add("4");
+
+        CustomAdapter adapter = new CustomAdapter(this, 0, items);
+        list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 3){
+                if(position == 2){
                     Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                     startActivity(intent);
                 }
             }
         });
 
+        list_articles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SearchList_items item = (SearchList_items) parent.getItemAtPosition(position);
+
+                int itemId = item.getpId();
+
+                Intent intent = new Intent(getApplicationContext(), ProductpostActivity.class);
+                intent.putExtra("id", itemId);
+                startActivity(intent);
+            }
+        });
+
         Intent intent = getIntent();
         int id = intent.getExtras().getInt("id");
+
+        list_articles = (ListView)findViewById(R.id.list_articles);
+        final ArticlesAdapter adapter2 = new ArticlesAdapter();
+        Call<List<Article>> articles = networkService.getarticles(id);
+        articles.enqueue(new Callback<List<Article>>() {
+            @Override
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                if (response.isSuccessful()) {
+                    List<Article> article_tmp = response.body();
+                    for (final Article article : article_tmp) {
+                        adapter2.addItem(article.getId(), article.isFavorite(), article.getPhoto(), article.getName(), Integer.toString(article.getPrice()));
+                    }
+                    list_articles.setAdapter(adapter2);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Article>> call, Throwable t) {
+
+            }
+        });
 
         Call<Product> product = networkService.productID(id);
         product.enqueue(new Callback<Product>() {
@@ -200,10 +254,8 @@ public class ProductActivity extends Activity {
             if ("1".equals(items.get(position)))
                 imageView.setBackgroundResource(R.drawable.a_1);
             else if ("2".equals(items.get(position)))
-                imageView.setBackgroundResource(R.drawable.a_2);
-            else if ("3".equals(items.get(position)))
                 imageView.setBackgroundResource(R.drawable.a_3);
-            else if ("4".equals(items.get(position)))
+            else if ("3".equals(items.get(position)))
                 imageView.setBackgroundResource(R.drawable.a_4);
 
             return v;

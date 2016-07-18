@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -79,6 +80,12 @@ public class MaActivity extends Activity {
             getWindow().setStatusBarColor(Color.rgb(255, 168, 0));
         }
 
+        Typeface face1 = Typeface.createFromAsset(getAssets(), "fonts/Cocogoose_trial.otf");
+        Typeface face2 = Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf");
+        Typeface face3 = Typeface.createFromAsset(getAssets(), "fonts/NotoSansCJKkr-Medium.otf");
+        Typeface face4 = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+
+
         backPressCloseSystem = new BackPressCloseSystem(this);
 
         layoutDrawer = (LinearLayout) findViewById(R.id.layoutDrawer);
@@ -106,7 +113,9 @@ public class MaActivity extends Activity {
         registerForContextMenu(profile);
 
         name = (TextView) findViewById(R.id.name);
+        name.setTypeface(face3);
         email = (TextView) findViewById(R.id.email);
+        email.setTypeface(face3);
 
         //list
         list = (ListView) findViewById(R.id.list);

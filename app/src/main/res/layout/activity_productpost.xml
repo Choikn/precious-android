@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="7dp"
+                android:textColor="#676767"
                 android:layout_below="@+id/image"
                 android:text="굿즈 팔아요"/>
 
@@ -71,6 +72,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="7dp"
                 android:layout_below="@+id/title"
+                android:textColor="#919191"
                 android:text="가격"/>
 
             <ImageView
@@ -91,6 +93,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_below="@+id/title"
                 android:layout_toRightOf="@+id/b"
+                android:textColor="#adadad"
                 android:text="30000원"/>
 
             <TextView
@@ -100,6 +103,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="7dp"
                 android:layout_below="@+id/price"
+                android:textColor="#7d7d7d"
                 android:text="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"/>
 
             <ImageButton

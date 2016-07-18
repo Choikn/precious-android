@@ -12,7 +12,10 @@ public class SearchList_items {
     private String photo;
     private String titleStr;
     private String descStr;
+<<<<<<< HEAD
     private Bitmap bitmap;
+=======
+>>>>>>> origin/test
 
     public boolean isFavorite() {
         return favorite;
