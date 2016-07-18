@@ -134,7 +134,11 @@ public class SearchListAdapter extends BaseAdapter{
         favorite.setTag(listViewItem);
 
         // 아이템 내 각 위젯에 데이터 반영
-        new DownloadImageTask(photo).execute(listViewItem.getPhoto());
+        if (listViewItem.getBitmap() != null) {
+            photo.setImageBitmap(listViewItem.getBitmap());
+        } else {
+            new DownloadImageTask(listViewItem, photo).execute(listViewItem.getPhoto());
+        }
         name.setText(listViewItem.getTitleStr());
         price.setText(listViewItem.getDescStr());
         favorite.setImageResource(listViewItem.isFavorite() ? R.drawable.heart : R.drawable.heart2);
@@ -143,9 +147,11 @@ public class SearchListAdapter extends BaseAdapter{
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        SearchList_items item;
         ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
+        public DownloadImageTask(SearchList_items item, ImageView bmImage) {
+            this.item = item;
             this.bmImage = bmImage;
         }
 
@@ -163,6 +169,7 @@ public class SearchListAdapter extends BaseAdapter{
         }
 
         protected void onPostExecute(Bitmap result) {
+            item.setBitmap(result);
             bmImage.setImageBitmap(result);
         }
     }

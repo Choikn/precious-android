@@ -32,6 +32,9 @@
                 android:hint="검색할 단어를 입력하세요"
                 android:textColor="#000000"
                 android:background="@null"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
                 android:layout_toRightOf="@+id/search"/>
             <ImageButton
                 android:id="@+id/delete"

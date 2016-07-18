@@ -12,6 +12,7 @@ public class SearchList_items {
     private String photo;
     private String titleStr;
     private String descStr;
+    private Bitmap bitmap;
 
     public boolean isFavorite() {
         return favorite;
@@ -51,5 +52,13 @@ public class SearchList_items {
 
     public void setDescStr(String descStr) {
         this.descStr = descStr;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

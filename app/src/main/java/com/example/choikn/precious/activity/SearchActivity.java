@@ -13,13 +13,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -96,31 +99,46 @@ public class SearchActivity extends Activity {
             }
         });
 
-        search.setOnClickListener(new View.OnClickListener() {
+        searchbox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                final SearchListAdapter adapter = new SearchListAdapter();
-                String searching = searchbox.getText().toString();
-                Call<List<Product>> search = networkService.products(searching);
-                search.enqueue(new Callback<List<Product>>() {
-                    @Override
-                    public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                        if (response.isSuccessful()) {
-                            List<Product> product_temp = response.body();
-                            for (final Product product : product_temp) {
-                                adapter.addItem(product.getId(), product.isFavorite(), product.getPhoto(), product.getName(), Integer.toString(product.getAvgPrice()));
-                            }
-                            list.setAdapter(adapter);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Product>> call, Throwable t) {
-                        Log.i("MyTag", "서버 onFailure 에러내용 : " + t.getMessage());
-                    }
-                });
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    SearchActivity.this.doSearch();
+                    return true;
+                }
+                return false;
             }
         });
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchActivity.this.doSearch();
+            }
+        });
+
+    }
+
+    public void doSearch() {
+        final SearchListAdapter adapter = new SearchListAdapter();
+        String searching = searchbox.getText().toString();
+        Call<List<Product>> search = networkService.products(searching);
+        search.enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful()) {
+                    List<Product> product_temp = response.body();
+                    for (final Product product : product_temp) {
+                        adapter.addItem(product.getId(), product.isFavorite(), product.getPhoto(), product.getName(), Integer.toString(product.getAvgPrice()));
+                    }
+                    list.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Log.i("MyTag", "서버 onFailure 에러내용 : " + t.getMessage());
+            }
+        });
     }
 }
