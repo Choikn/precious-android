@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Precious</string>
+    <string name="action_settings">Settings</string>
     <string name="facebook_app_id">611783392314372</string>
+    <string name="tab1_button">Button in First Tab</string>
+    <string name="example">Example Source</string>
 
 </resources>

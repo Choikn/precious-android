@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context=".SignupActivity">
+    tools:context=".activity.SignupActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
