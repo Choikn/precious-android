@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.choikn.precious.listAdapter.ArticlesAdapter;
+import com.example.choikn.precious.listAdapter.Articles_items;
 import com.example.choikn.precious.listAdapter.SearchListAdapter;
 import com.example.choikn.precious.listAdapter.SearchList_items;
 import com.example.choikn.precious.server.AppController;
@@ -55,6 +56,8 @@ public class ProductActivity extends Activity {
     private LinearLayout layoutDrawer;
     private NetworkService networkService;
     private TextView name, email, minprice, maxprice, avgprice, a,b,c;
+    private ArticlesAdapter adapter2;
+    private int id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,11 +101,9 @@ public class ProductActivity extends Activity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent();
-                int id = intent.getExtras().getInt("id");
                 Intent intent2 = new Intent(getApplicationContext(), PostWriteActivity.class);
                 intent2.putExtra("id", id);
-                startActivity(intent2);
+                startActivityForResult(intent2, 0);
             }
         });
 
@@ -128,24 +129,11 @@ public class ProductActivity extends Activity {
             }
         });
 
-        list_articles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchList_items item = (SearchList_items) parent.getItemAtPosition(position);
-
-                int itemId = item.getpId();
-
-                Intent intent = new Intent(getApplicationContext(), ProductpostActivity.class);
-                intent.putExtra("id", itemId);
-                startActivity(intent);
-            }
-        });
-
         Intent intent = getIntent();
-        int id = intent.getExtras().getInt("id");
+        id = intent.getExtras().getInt("id");
 
         list_articles = (ListView)findViewById(R.id.list_articles);
-        final ArticlesAdapter adapter2 = new ArticlesAdapter();
+        adapter2 = new ArticlesAdapter();
         Call<List<Article>> articles = networkService.getarticles(id);
         articles.enqueue(new Callback<List<Article>>() {
             @Override
@@ -162,6 +150,19 @@ public class ProductActivity extends Activity {
             @Override
             public void onFailure(Call<List<Article>> call, Throwable t) {
 
+            }
+        });
+
+        list_articles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Articles_items item = (Articles_items) parent.getItemAtPosition(position);
+
+                int itemId = item.getpId();
+
+                Intent intent = new Intent(getApplicationContext(), ProductpostActivity.class);
+                intent.putExtra("id", itemId);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -208,6 +209,31 @@ public class ProductActivity extends Activity {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Call<List<Article>> articles = networkService.getarticles(id);
+        articles.enqueue(new Callback<List<Article>>() {
+            @Override
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                if (response.isSuccessful()) {
+                    adapter2.reset();
+                    List<Article> article_tmp = response.body();
+                    for (final Article article : article_tmp) {
+                        adapter2.addItem(article.getId(), article.isFavorite(), article.getPhoto(), article.getName(), Integer.toString(article.getPrice()));
+                    }
+                    adapter2.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Article>> call, Throwable t) {
+
+            }
+        });
+    }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

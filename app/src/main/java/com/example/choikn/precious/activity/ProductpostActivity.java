@@ -2,13 +2,18 @@ package com.example.choikn.precious.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.choikn.precious.R;
@@ -18,6 +23,8 @@ import com.example.choikn.precious.server.AppController;
 import com.example.choikn.precious.server.Article;
 import com.example.choikn.precious.server.NetworkService;
 import com.example.choikn.precious.server.Product;
+
+import java.io.InputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +37,11 @@ public class ProductpostActivity extends Activity {
 
     private static NetworkService networkService;
     private TextView title, a, price, content;
+    private ImageView image;
     private ImageButton favorite;
+    private View contact;
+
+    Article article;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,9 @@ public class ProductpostActivity extends Activity {
         price.setTypeface(face2);
         content = (TextView)findViewById(R.id.content);
         content.setTypeface(face2);
+        image = (ImageView)findViewById(R.id.image);
+
+        contact = findViewById(R.id.contact);
 
         favorite = (ImageButton)findViewById(R.id.favorite);
 
@@ -67,9 +81,15 @@ public class ProductpostActivity extends Activity {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
                 if (response.isSuccessful()) {
+                    article = response.body();
                     Article article_tmp = response.body();
                     title.setText(article_tmp.getName());
-                    price.setText(article_tmp.getPrice());
+                    price.setText(article_tmp.getPrice() + "원");
+                    content.setText(article_tmp.getDescription());
+                    if (article_tmp.getPhoto().length() >= 2) {
+                        Log.e("MyTag", article_tmp.getPhoto().substring(2, article_tmp.getPhoto().length() - 2));
+                        new DownloadImageTask(image).execute("http://precious.kkiro.kr/" + article_tmp.getPhoto().substring(2, article_tmp.getPhoto().length() - 2));
+                    }
                 } else {
 
                 }
@@ -125,6 +145,39 @@ public class ProductpostActivity extends Activity {
                 }
             }
         });
+
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                sendIntent.setData(Uri.parse("sms:" + article.getUser().getPhone()));
+                startActivity(sendIntent);
+            }
+        });
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
 }

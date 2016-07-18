@@ -3,6 +3,7 @@ package com.example.choikn.precious.server;
 import java.io.File;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -35,9 +36,10 @@ public interface NetworkService {
     @POST("/api/articles/{id}/favorite")
     Call<Article> at_favorite(@Path("id")Number id);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("/api/products/{id}/articles")
-    Call<Article> write(@Path("id")int id, @Field("name")String name, @Field("price")Number price, @Field("descripsion")String description);
+    Call<Article> write(@Path("id")int id, @Part("name")RequestBody name, @Part("price")Number price, @Part("description")RequestBody description,
+                        @Part MultipartBody.Part photo);
 
     @FormUrlEncoded
     @POST("/api/session/local")

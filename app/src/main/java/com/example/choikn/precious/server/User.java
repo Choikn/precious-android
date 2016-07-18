@@ -9,6 +9,8 @@ public class User {
     String name;
     String email;
 
+    String phone;
+
     public String getUsername() {
         return username;
     }
@@ -39,4 +41,11 @@ public class User {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }
