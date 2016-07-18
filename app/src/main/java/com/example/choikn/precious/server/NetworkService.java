@@ -58,7 +58,7 @@ public interface NetworkService {
 
     @FormUrlEncoded
     @POST("/api/user")
-    Call<User> setGCMKey(@Field("gcm") String token);
+    Call<User> setGCMKey(@Field("gcm") String token, @Field("phone") String phone);
 
     @DELETE("/api/products/{id}/favorite")
     Call<Product> favorite_dt(@Path("id")Number id);

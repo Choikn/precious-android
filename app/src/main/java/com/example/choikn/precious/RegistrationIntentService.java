@@ -1,8 +1,10 @@
 package com.example.choikn.precious;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.example.choikn.precious.server.AppController;
@@ -46,9 +48,11 @@ public class RegistrationIntentService extends IntentService {
     }
 
     private void sendRegistrationToServer(String token) {
+        TelephonyManager tMgr = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String mPhoneNumber = tMgr.getLine1Number();
         // Send token to the server
         NetworkService service = AppController.getNetworkService(this);
-        service.setGCMKey(token).enqueue(new Callback<User>() {
+        service.setGCMKey(token, mPhoneNumber).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.d(TAG, response.message());
